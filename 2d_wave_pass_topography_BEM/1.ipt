@@ -41,7 +41,7 @@
 *=======================
 *INPUT THE GAUSSIAN INTEGRATIAL POINTS NO.
 
-8 
+3 
 *=======================
 *INPUT THE GRAVITY,MU,CHANNEL WEIDTH,THO
 
@@ -53,5 +53,5 @@
 *=======================
 *ENDTIME,DELTTIME,SOR,ICON,NITER,ETOL
 
-0.1   0.001   0.5   10   500   1.0E-6
+0.002   0.001   0.5   10   500   1.0E-3
 *FILE END
