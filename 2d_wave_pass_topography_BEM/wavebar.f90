@@ -271,8 +271,6 @@ SUBROUTINE INPUT(NPL,COOR,NFIELD,NNODE,NELM,NELEM,ME,NS,BUNTYP,DEP,D_OUT,NGA,GRA
 !**********************************************************************
       SUBROUTINE LENGTH(NPL,COOR1,SIDE_L1)
 !**********************************************************************
-      IMPLICIT INTEGER (I-N)
-      IMPLICIT REAL    (A-H,O-Z)
 	  INTEGER NPL
       REAL  COOR1(NPL,2),SIDE_L1(NPL)
       DO I=1,NPL-1
@@ -285,9 +283,7 @@ SUBROUTINE INPUT(NPL,COOR,NFIELD,NNODE,NELM,NELEM,ME,NS,BUNTYP,DEP,D_OUT,NGA,GRA
 !**********************************************************************
       SUBROUTINE MESH(NPL,NNODE,NELM,NELEM,LN,COOR,LENG,NODE)
 !********************************************************************
-      IMPLICIT INTEGER (I-N)
-      IMPLICIT REAL    (A-H,O-Z)
-      INTEGER NPL,NEL(NPL),NNODE,NELM,NELEM(NPL),LN(NELM,2)
+      INTEGER NPL,NEL(NPL),NNODE,NELM,NELEM(NPL),LN(NELM,2),K,L,N
       REAL    SX,SY,NORM,DELT,LENG(NPL),COOR(NPL,2),NODE(NNODE,2)
 
 K=0
@@ -337,9 +333,7 @@ END DO
 !********************************************************************
       SUBROUTINE SHAP(SHA1,SHA2,SH,NGA,RT)
 !********************************************************************
-      IMPLICIT INTEGER (I-N)
-      IMPLICIT REAL (A-H,O-Z)
-      INTEGER NGA
+      INTEGER NGA, M
       REAL RT(NGA),SHA1(NGA),SHA2(NGA),SH(2,NGA)
       DO M=1,NGA
         SHA1(M)=0.5*(1-RT(M))
@@ -353,10 +347,10 @@ END DO
 !**********************************************************************
       SUBROUTINE REMESH(NPL,NNODE,NELEM,NODE,NS,TIME,DEP,AMP,NWG,WGX)
 !**********************************************************************
-      IMPLICIT INTEGER(I-N)
-      IMPLICIT REAL(A-H,O-Z)
       INTEGER NPL,NNODE,NELEM(NPL),NS(NPL),NWG,IL,IR
       REAL TIME,DEP,AMP,LENG,NODE(NNODE,2),SX,SY,NORM,WGX(10),WGY(10)
+      INTEGER K, L
+      REAL DELT, TEMP, WAV_L, WAV_R
 
 !------ENSURE DUPLICATE POINT ON END NODE OF FREE SURFACE-----
     NODE(NNODE,:)=NODE(1,:)
@@ -401,11 +395,10 @@ WRITE(7,"(11(E15.8,1X))") TIME,WGY(1:NWG)*100.0
 !********************************************************************
       SUBROUTINE BOUND(NPL,NNODE,NELEM,NS,BUNTYP,PHI,PPHI,PHIT,VEL,WC)
 !********************************************************************
-       IMPLICIT INTEGER (I-N)
-       IMPLICIT REAL    (A-H,O-Z)
        INTEGER NPL,NNODE,NELEM(NPL),NS(NPL),BUNTYP(NPL)
 	   REAL R,VEL,WC
        REAL PHI(NNODE),PPHI(NNODE),PHIT(NNODE)
+       INTEGER K,N
 
        K=1
        N=0
@@ -435,13 +428,13 @@ WRITE(7,"(11(E15.8,1X))") TIME,WGY(1:NWG)*100.0
 !********************************************************************
       SUBROUTINE KERNEL(KER1,KER2,NODE,NORM,JCB,LENG,LN,NNODE,NELM,NGA,SHA1,SHA2,SH,WT)
 !********************************************************************
-      IMPLICIT INTEGER (I-N)
-      IMPLICIT REAL    (A-H,O-Z)
       INTEGER  NNODE,NELM,NGA,LN(NELM,2)
       REAL     KER1(NNODE,NNODE),KER2(NNODE,NNODE)
       REAL     NX,NY,H(2),G(2),XFUNC(10),YFUNC(10),PXI1(2)
       REAL     LENG(NELM),NORM(NELM,2),JCB(NELM),NODE(NNODE,2)
       REAL     WT(NGA),SHA1(NGA),SHA2(NGA),SH(2,NGA)
+      INTEGER K,L,M
+      REAL RD,SIGMA
 
         KER1=0.0
         KER2=0.0
@@ -506,13 +499,12 @@ WRITE(7,"(11(E15.8,1X))") TIME,WGY(1:NWG)*100.0
 !      PPHI=PARTIAL PHI OVER PARTIAL N
 !      USING GAUSSIAN ELIMINATION WITH BACKSUBSTITUTION
 !======================================================================
-       IMPLICIT INTEGER (I-N)
-       IMPLICIT REAL    (A-H,O-Z)
        INTEGER NPL,NNODE,NELEM(NPL),BUNTYP(NPL)
        REAL    PHI(NNODE),PPHI(NNODE)
        REAL    KER1(NNODE,NNODE),KER2(NNODE,NNODE),GG(NNODE,NNODE)
        REAL    H1(1000,1000),Q1(1000),TEMP(1000)
        REAL*8  SUM,A,SIG,G1(1000,1000),P1(1000)
+       INTEGER I,J,K,L,N
 
 !********** TO MOVE THE KER1 AND KER2**********************************
 !-----PHI PPHI----         
@@ -605,8 +597,6 @@ WRITE(7,"(11(E15.8,1X))") TIME,WGY(1:NWG)*100.0
 !**********************************************************************
        SUBROUTINE SOLVE_SOR(NPL,PHI,PPHI,KER1,KER2,BUNTYP,NNODE,SOR,NELEM)
 !**********************************************************************
-       IMPLICIT INTEGER (I-N)
-       IMPLICIT REAL    (A-H,O-Z)
        INTEGER NPL,NNODE,BUNTYP(NPL),NELEM(NPL)
        REAL    PHI(NNODE),PPHI(NNODE)
        REAL    KER1(NNODE,NNODE),KER2(NNODE,NNODE)
@@ -615,6 +605,8 @@ WRITE(7,"(11(E15.8,1X))") TIME,WGY(1:NWG)*100.0
        REAL    G1(1000,1000),ERR(1000),G2(1000,1000),X1(1000)
        REAL    XP(1000)
        REAL*8  EMAX 
+       INTEGER K,N,I,J,L
+       REAL PMAX
 
 !********** TO MOVE THE KER1 AND KER2**********************************
 !-----PHI PPHI----         
@@ -815,9 +807,10 @@ SUBROUTINE TAYES1(NPL,NNODE,NELM,NELEM,ME,NS,LN,NODE,NORM,JCB,PHI,PPHI,&
 !********************************************************************
       SUBROUTINE ACCBC(NPL,NNODE,NELM,NELEM,ME,LN,NORM,JCB,PPHI,DP,ACCMO)
 !********************************************************************
-    INTEGER I,J,K,NPL,NNODE,NELM,NELEM(NPL),ME(NPL),LN(NELM,2)
+    INTEGER NPL,NNODE,NELM,NELEM(NPL),ME(NPL),LN(NELM,2)
     REAL DPNDX,DPNDY,DPNDS
 	REAL NORM(NELM,2),JCB(NELM),PPHI(NNODE),DP(NNODE,2),ACCMO(NNODE)
+    INTEGER I,J,K
 
 DO K=1,NPL-1
   DO I=ME(K)+1,ME(K+1)
@@ -835,11 +828,10 @@ END DO
 !********************************************************************
       SUBROUTINE BOUNDT(NPL,NNODE,NELM,NS,NELEM,BUNTYP,LN,PHIT,PPHIT,DPDS,JCB,WC,ACC,ACCMO)
 !********************************************************************
-       IMPLICIT INTEGER (I-N)
-       IMPLICIT REAL    (A-H,O-Z)
        INTEGER NNODE,NELM,NS(NPL),NELEM(NPL),BUNTYP(NPL),LN(NELM,2)
 	   REAL R,ACC,WC
        REAL JCB(NELM),PHIT(NNODE),PPHIT(NNODE),DPDS(NNODE),ACCMO(NNODE),DPDSS(NNODE)
+       INTEGER I,J,K,N,NPL
 
 	PPHIT=0.0
 
@@ -882,8 +874,6 @@ END DO
 SUBROUTINE TAYES2(PHI,PPHI,PHIT,PPHIT,DPDS,DPDT,DP,NNODE,NELEM,NODE,NELM,NORM,&
 				 &JCB,LN,DELTTIME,GRAV,ACC)
 !**********************************************************************
-      IMPLICIT INTEGER (I-N)
-      IMPLICIT REAL    (A-H,O-Z)
       INTEGER  NNODE,NELM,NELEM(4),LN(NELM,2)
       REAL DELTTIME,GRAV,ACC,D2PDT,DPTDS,DPDNDS
       REAL NORM(NELM,2),JCB(NELM)
