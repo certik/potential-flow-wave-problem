@@ -179,6 +179,7 @@ CONTAINS
       SUBROUTINE HEADLINE(ID,IREAD)
 !**********************************************************************
       CHARACTER*2 ID
+      INTEGER IREAD
       ID =  '*'
       DO WHILE (ID .EQ. '*')
       READ(IREAD,'(A1)') ID
