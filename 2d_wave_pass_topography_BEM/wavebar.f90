@@ -190,7 +190,6 @@ CONTAINS
 SUBROUTINE INPUT(NPL,COOR,NFIELD,NNODE,NELM,NELEM,ME,NS,BUNTYP,DEP,D_OUT,NGA,GRAV,MU,WIDTH,THO,&
 				&AMP,OMEGA,PSI,NTIM,DELTTIME,SOR,ICON,NITER,ETOL)
 !**********************************************************************
-      IMPLICIT NONE
 	  INTEGER I,J,NPL,NFIELD,NNODE,NELM,NGA,NTIM,ICON,NITER
 	  INTEGER NELEM(NPL),ME(NPL),NS(NPL),BUNTYP(NPL)
 	  REAL COOR(NPL,2),DEP,D_OUT,ENDTIME,DELTTIME,SOR,GRAV,MU,WIDTH,THO,AMP,OMEGA,PSI,ETOL
@@ -246,7 +245,6 @@ SUBROUTINE INPUT(NPL,COOR,NFIELD,NNODE,NELM,NELEM,ME,NS,BUNTYP,DEP,D_OUT,NGA,GRA
 !**********************************************************************
       SUBROUTINE WAVE_GEN(NPL,WTYP,NWG,WGX)
 !**********************************************************************
-      IMPLICIT NONE
 	  INTEGER NPL,WTYP,NWG
 	  REAL WGX(10)
       CHARACTER*2 ID
@@ -725,7 +723,6 @@ WRITE(7,"(11(E15.8,1X))") TIME,WGY(1:NWG)*100.0
 SUBROUTINE TAYES1(NPL,NNODE,NELM,NELEM,ME,NS,LN,NODE,NORM,JCB,PHI,PPHI,&
 	  &DPDS,DP,PHIT,DPDT,DEP,GRAV,MU,VEL,WC)
 !********************************************************************
-    IMPLICIT NONE
     INTEGER I,J,K,NPL,NNODE,NELM,NELEM(NPL),ME(NPL),NS(NPL),LN(NELM,2)
     REAL WC,DEP,GRAV,MU,VEL
 	REAL NODE(NNODE,2),NORM(NELM,2),JCB(NELM),PHI(NNODE),PPHI(NNODE),DP(NNODE,2)
@@ -818,7 +815,6 @@ SUBROUTINE TAYES1(NPL,NNODE,NELM,NELEM,ME,NS,LN,NODE,NORM,JCB,PHI,PPHI,&
 !********************************************************************
       SUBROUTINE ACCBC(NPL,NNODE,NELM,NELEM,ME,LN,NORM,JCB,PPHI,DP,ACCMO)
 !********************************************************************
-    IMPLICIT NONE
     INTEGER I,J,K,NPL,NNODE,NELM,NELEM(NPL),ME(NPL),LN(NELM,2)
     REAL DPNDX,DPNDY,DPNDS
 	REAL NORM(NELM,2),JCB(NELM),PPHI(NNODE),DP(NNODE,2),ACCMO(NNODE)
@@ -931,7 +927,6 @@ SUBROUTINE TAYES2(PHI,PPHI,PHIT,PPHIT,DPDS,DPDT,DP,NNODE,NELEM,NODE,NELM,NORM,&
 !********************************************************************
 SUBROUTINE PRESSURE(ICON,TIME,THO,GRAV,DEP,NPL,NNODE,NS,NODE,PHIT,DP,PR,P_ATM)
 !********************************************************************
-      IMPLICIT NONE
       INTEGER  I,ICON,NPL,NNODE,NS(NPL)
       REAL TIME,DEP,THO,GRAV,P1,P2,P3,P_ATM
       REAL NODE(NNODE,2),PHIT(NNODE),DP(NNODE,2),PR(NNODE)
@@ -960,7 +955,6 @@ SUBROUTINE PRESSURE(ICON,TIME,THO,GRAV,DEP,NPL,NNODE,NS,NODE,PHIT,DP,PR,P_ATM)
 SUBROUTINE DOMAIN(NPL,NGA,NFIELD,NNODE,NELM,NELEM,NS,LN,NODE,NORM,JCB,PHI,PPHI,PHIT,PPHIT,&
 				 &SHA1,SHA2,SH,WT,THO,GRAV,DEP,P_ATM,DP,PR)
 !********************************************************************
-      IMPLICIT NONE
       INTEGER  I,J,K,L,M,IL,IR,NPL,NGA,NFIELD,NNODE,NELM,NELEM(NPL),NS(NPL),LN(NELM,2)
 	  REAL THO,GRAV,DEP,P_ATM
 	  REAL HB,DX,DY,PI2,TEMP,P1,P2,P3
@@ -1182,7 +1176,6 @@ SUBROUTINE DOMAIN(NPL,NGA,NFIELD,NNODE,NELM,NELEM,NS,LN,NODE,NORM,JCB,PHI,PPHI,P
 !********************************************************************
 	SUBROUTINE SIMP(N,X,W,A,B)
 !********************************************************************
-	IMPLICIT NONE
 	INTEGER I,N
 	REAL A,B,X(10000),W(10000)
 
@@ -1204,7 +1197,6 @@ SUBROUTINE DOMAIN(NPL,NGA,NFIELD,NNODE,NELM,NELEM,NS,LN,NODE,NORM,JCB,PHI,PPHI,P
 !********************************************************************
 	SUBROUTINE PHIT_CONVERGE(N,P1,P2,E1,E2)
 !********************************************************************
-	IMPLICIT NONE
 	INTEGER I,N
 	REAL P1(N),P2(N),E1,E2
 
@@ -1221,7 +1213,6 @@ SUBROUTINE DOMAIN(NPL,NGA,NFIELD,NNODE,NELM,NELEM,NS,LN,NODE,NORM,JCB,PHI,PPHI,P
 !********************************************************************
 	SUBROUTINE BWLOC(PX,N,X,IST,IL,IR)
 !********************************************************************
-	IMPLICIT NONE
 	INTEGER I,N,IST,IL,IR
 	REAL PX,X(N)
 
@@ -1239,7 +1230,6 @@ SUBROUTINE DOMAIN(NPL,NGA,NFIELD,NNODE,NELM,NELEM,NS,LN,NODE,NORM,JCB,PHI,PPHI,P
 !********************************************************************
 	SUBROUTINE WAVE_SPD(GRAV,OMEGA,D,C)
 !********************************************************************
-	IMPLICIT NONE
 	INTEGER I
 	REAL T,K,K2,GRAV,OMEGA,D,C,PI,F0,F1
 	PI=ACOS(-1.0)
