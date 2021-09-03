@@ -169,7 +169,12 @@ END DO
 END DO
 
 STOP
-END
+
+
+CONTAINS
+
+
+
 !**********************************************************************
       SUBROUTINE HEADLINE(ID,IREAD)
 !**********************************************************************
@@ -1256,3 +1261,6 @@ SUBROUTINE DOMAIN(NPL,NGA,NFIELD,NNODE,NELM,NELEM,NS,LN,NODE,NORM,JCB,PHI,PPHI,P
 
 	RETURN
 	END
+
+
+END PROGRAM
